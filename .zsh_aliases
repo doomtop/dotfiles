@@ -1,18 +1,8 @@
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
 alias reload='. ~/.zshrc'
 alias sudo='sudo '
 alias cls='clear'
-
-alias -g ...='../..'
-alias -g ....='../../..'
-alias -g .....='../../../..'
-alias -g ......='../../../../..'
-
-alias -- -='cd -'
-alias -- ~='cd ~'
-
-alias l='ls -lah'
-alias ll='ls -lh'
 
 function mkcd () { mkdir $@ && cd $@ }
 function count () { ls -1 $@ | wc -l }
@@ -70,8 +60,10 @@ EOF
 function cdf() {
   cd "$(pfd)"
 }
-alias rm='trash'
 alias cleanup='find . -name ".DS_Store" -depth -exec rm {} \;'
+
+# requires `npm install -g trash-cli`
+alias rm='trash'
 
 #
 # git aliases
