@@ -1,0 +1,94 @@
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias reload='. ~/.zshrc'
+alias sudo='sudo '
+alias cls='clear'
+
+alias -g ...='../..'
+alias -g ....='../../..'
+alias -g .....='../../../..'
+alias -g ......='../../../../..'
+
+alias -- -='cd -'
+alias -- ~='cd ~'
+
+alias l='ls -lah'
+alias ll='ls -lh'
+
+function mkcd () { mkdir $@ && cd $@ }
+function count () { ls -1 $@ | wc -l }
+
+alias history='fc -il 1'
+alias ick='ack -i --pager="less -R -S -X"'
+
+#
+# OSX aliases
+#
+function open_command() {
+  emulate -L zsh
+  setopt shwordsplit
+
+  local open_cmd
+
+  # define the open command
+  case "$OSTYPE" in
+    darwin*)  open_cmd='open' ;;
+    cygwin*)  open_cmd='cygstart' ;;
+    linux*)   open_cmd='xdg-open' ;;
+    msys*)    open_cmd='start ""' ;;
+    *)        echo "Platform $OSTYPE not supported"
+              return 1
+              ;;
+  esac
+
+  # don't use nohup on OSX
+  if [[ "$OSTYPE" == darwin* ]]; then
+    $open_cmd "$@" &>/dev/null
+  else
+    nohup $open_cmd "$@" &>/dev/null
+  fi
+}
+alias ofd='open_command $PWD'
+function pfd() {
+  osascript 2>/dev/null <<EOF
+    tell application "Finder"
+      return POSIX path of (target of window 1 as alias)
+    end tell
+EOF
+}
+function pfs() {
+  osascript 2>/dev/null <<EOF
+    set output to ""
+    tell application "Finder" to set the_selection to selection
+    set item_count to count the_selection
+    repeat with item_index from 1 to count the_selection
+      if item_index is less than item_count then set the_delimiter to "\n"
+      if item_index is item_count then set the_delimiter to ""
+      set output to output & ((item item_index of the_selection as alias)'s POSIX path) & the_delimiter
+    end repeat
+EOF
+}
+function cdf() {
+  cd "$(pfd)"
+}
+alias rm='trash'
+alias cleanup='find . -name ".DS_Store" -depth -exec rm {} \;'
+
+#
+# git aliases
+#
+
+alias git='hub'
+alias g='git'
+alias ga='git add'
+alias gb='git branch'
+alias gc='git commit -v'
+alias gc!='git commit -v --amend'
+alias gcl='git clone --recursive'
+alias gco='git checkout'
+alias gd='git diff'
+alias gp='git push'
+alias gp!='git push --force'
+alias gl='git pull'
+alias grup='git remote -v update'
+alias gst='git status'
+alias gup='git pull --rebase'
