@@ -86,10 +86,20 @@ alias gp!='git push --force'
 alias gl='git pull'
 alias gr="git remote -v"
 alias grup='git remote -v update'
+alias gs='git status -s' # Potential Ghostscript conflict
 alias gst='git status'
 alias gup='git pull --rebase'
 alias glg="git log --stat"
-alias glog="git log --graph --pretty='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias glog="git log --graph --format='%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+
+alias gss='git stash save'
+alias gsu='git stash save --include-untracked'
+alias gsa='git stash apply'
+alias gsc='git stash clear'
+alias gsd='git stash drop'
+alias gsl="git --no-pager stash list --format='%C(magenta)%C(bold)%gd%Creset: %gs%Creset'"
+alias gsp='git stash pop'
+alias gssh='git stash show --text'
 
 alias gwip='git checkout -b wip_branch && git add -A; git rm $(git ls-files --deleted) 2> /dev/null; git commit --no-verify -m "--wip-- [skip ci]"'
 alias gunwip='git log -n 1 | grep -q -c "\-\-wip\-\-" && git reset HEAD~1 && git checkout master && git branch -d wip_branch'
